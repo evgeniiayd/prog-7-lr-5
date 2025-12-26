@@ -6,3 +6,6 @@ Django, writing your first app
 
 - Polls questions
 <img width="1851" height="728" alt="image" src="https://github.com/user-attachments/assets/56cda9a8-9565-4e10-8718-b559a6b4f5ed" />
+
+- Результаты тестирования:
+<img width="861" height="384" alt="image" src="https://github.com/user-attachments/assets/1efb79a8-73b7-4a1d-a5d3-48cbb14138a9" />
