@@ -1,4 +1,4 @@
-# ЛР 3 и 4
+# ЛР 3-5
 ## Яблонская Евгения, ИВТ-1.2, 4 курс
 
 Результат ЛР 3:
@@ -22,6 +22,15 @@
 <img width="1243" height="709" alt="image" src="https://github.com/user-attachments/assets/4645f194-ee4f-454a-9fec-3e8c9e72487c" />
 
 Создание нового вопроса:
+<img width="872" height="672" alt="image" src="https://github.com/user-attachments/assets/1eb6b344-433e-4720-bffa-76ff349494e6" />
+
+Результат ЛР 5:
+Авторизация через Google:
+<img width="725" height="575" alt="image" src="https://github.com/user-attachments/assets/c02aca33-d539-42a0-bbf2-7dc981ce3d6d" />
+
+<img width="1655" height="730" alt="image" src="https://github.com/user-attachments/assets/30532c3c-9579-4e29-b59e-7cd165ee7d8e" />
+
 ![Uploading image.png…]()
+
 
 
