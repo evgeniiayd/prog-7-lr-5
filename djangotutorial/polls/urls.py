@@ -9,6 +9,8 @@ urlpatterns = [
     path('<int:pk>/', views.DetailView.as_view(), name='detail'),  # Детальная страница
     path('<int:pk>/results/', views.ResultsView.as_view(), name='results'),  # Результаты
     path('<int:question_id>/vote/', views.vote, name='vote'),  # Голосование
+    path('analytics/', views.analytics_page, name='analytics_page'),
+    path('api/search/', views.search_votes, name='search_votes'),
 ]
 
 

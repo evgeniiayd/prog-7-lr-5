@@ -1,40 +1,78 @@
-# ЛР 3-5
-## Яблонская Евгения, ИВТ-1.2, 4 курс
+# Лабораторная работа 5, 
 
-# Результат ЛР 3:
+## Описание
+Проект расширяет стандартное Django‑приложение для голосований (`polls`) микросервисами аналитики на базе Django REST Framework (DRF). Реализована статистика, экспорт данных и визуализация результатов опросов.
 
-- Панель админа:
-<img width="1230" height="807" alt="image" src="https://github.com/user-attachments/assets/694219b2-9353-45e9-aebf-41897508ddd0" />
+## Функциональность
 
-- Polls questions
-<img width="1851" height="728" alt="image" src="https://github.com/user-attachments/assets/56cda9a8-9565-4e10-8718-b559a6b4f5ed" />
+1. **Статистика по голосованиям**  
+   - Общее число голосов.  
+   - Количество голосов за каждый вариант.  
+   - Процентное соотношение.  
 
-- Результаты тестирования:
-<img width="861" height="384" alt="image" src="https://github.com/user-attachments/assets/1efb79a8-73b7-4a1d-a5d3-48cbb14138a9" />
+2. **Экспорт данных**  
+   - JSON (API‑ответ).  
+   - CSV (скачивание файла).  
 
-Конечный результат:
-<img width="1842" height="555" alt="image" src="https://github.com/user-attachments/assets/976c8db6-9ffe-4ab7-a3d1-7ff847b06433" />
+3. **Визуализация**  
+   - Графики в формате PNG (base64 в JSON‑ответе).  
 
-# Результат ЛР 4:
+4. **Поиск и отображение**  
+   - Фильтрация голосований по названию/дате.  
+   - Динамическая загрузка статистики и графиков на фронтенде.  
 
-Регистрация:
-<img width="1230" height="726" alt="image" src="https://github.com/user-attachments/assets/0d7a2f20-85cb-4bf9-8a38-d3349c36d221" />
+## Структура
 
-Создание нового вопроса:
-<img width="1243" height="709" alt="image" src="https://github.com/user-attachments/assets/4645f194-ee4f-454a-9fec-3e8c9e72487c" />
+- `polls/` — основное приложение (голосования).  
+- `poll_analytics/` — микросервисы аналитики (DRF).  
+- `templates/polls/analytics.html` — страница поиска и отображения статистики.  
 
-# Результат ЛР 5:
-Авторизация через Google:
+## Установка
 
-<img width="872" height="672" alt="image" src="https://github.com/user-attachments/assets/1eb6b344-433e-4720-bffa-76ff349494e6" />
+1. Установите зависимости:  
+   ```bash
+   pip install django djangorestframework matplotlib
+   ```
 
-<img width="725" height="575" alt="image" src="https://github.com/user-attachments/assets/c02aca33-d539-42a0-bbf2-7dc981ce3d6d" />
+2. Настройте `settings.py`:  
+   - Добавьте `'rest_framework'` и `'poll_analytics'` в `INSTALLED_APPS`.  
+   - Укажите `BASE_DIR` и `TEMPLATES` (см. пример в документации).  
 
-<img width="1655" height="730" alt="image" src="https://github.com/user-attachments/assets/30532c3c-9579-4e29-b59e-7cd165ee7d8e" />
+3. Выполните миграции:  
+   ```bash
+   python manage.py makemigrations
+   python manage.py migrate
+   ```
 
+4. Запустите сервер:  
+   ```bash
+   python manage.py runserver
+   ```
 
+## API‑эндпоинты
 
+- **`GET /api/analytics/stats/<id>/**` — статистика по голосованию.  
+- **`GET /api/analytics/export/<id>/<format>/**` — экспорт (формат: `json` или `csv`).  
+- **`GET /api/analytics/chart/<id>/**` — график в base64.  
+- **`GET /polls/api/search/?q=<query>`** — поиск голосований.  
 
+## Использование
 
+1. Откройте страницу аналитики:  
+   ```
+   http://127.0.0.1:8000/polls/analytics/
+   ```
+2. Введите поисковый запрос (название или дату).  
+3. Кликните на результат — загрузится статистика и график.  
 
+## Требования
 
+- Python 3.8+  
+- Django 4.0+  
+- Django REST Framework  
+- Matplotlib (для графиков)  
+
+## Примечания
+
+- Для работы экспорта в CSV убедитесь, что сервер имеет права на запись временных файлов.  
+- Графики генерируются «на лету» — при высокой нагрузке рекомендуется кеширование.

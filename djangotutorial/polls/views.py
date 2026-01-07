@@ -11,6 +11,7 @@ from .forms import QuestionForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+from django.http import JsonResponse
 
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
@@ -74,3 +75,16 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'registration/signup.html', {'form': form})
+
+from django.shortcuts import render
+from polls.models import Question
+from django.db.models import Q
+
+def analytics_page(request):
+    return render(request, 'polls/analytics.html')
+
+def search_votes(request):
+    query = request.GET.get('q', '')
+    if query:
+        questions = Question.objects.filter(question_text__icontains=query)
+        return JsonResponse({'questions': list(questions)})

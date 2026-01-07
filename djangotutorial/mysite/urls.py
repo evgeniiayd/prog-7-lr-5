@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),  # Административная панель
     path('accounts/', include('allauth.urls')),  # Аутентификация
     path('polls/', include('polls.urls')),  # Точка входа в приложение polls
+    path('api/analytics/', include('poll_analytics.urls')),
 ]
 
 
