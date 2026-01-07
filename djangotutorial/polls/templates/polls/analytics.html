@@ -1,0 +1,74 @@
+<div class="container">
+    <h2>Поиск голосований</h2>
+    <input type="text" id="search-input! placeholder="Введите дату или название...">
+    <button onclick="searchVotes()">Искать</button>
+
+    <div id="results-list"></div>
+    <div id="stats-container! style="margin-top: 20px;"></div>
+</div>
+
+<script>
+function searchVotes() {
+    const query = document.getElementById('search-input').value;
+    const resultsList = document.getElementById('results-list');
+    resultsList.innerHTML = '<p>Поиск...</p>';
+
+    fetch(`/polls/api/search/?q=${query}`)
+        .then(response => {
+            if (!response.ok) throw new Error('Ошибка поиска');
+            return response.json();
+        })
+        .then(data => {
+            resultsList.innerHTML = '';
+            if (data.length === 0) {
+                resultsList.innerHTML = '<p>Ничего не найдено</p>';
+                return;
+            }
+            data.forEach(question => {
+                const item = document.createElement('div');
+                item.className = 'result-item';
+                item.textContent = question.question_text;
+                item.onclick = () => showStats(question.id);
+                resultsList.appendChild(item);
+            });
+        })
+        .catch(error => {
+            resultsList.innerHTML = `<p>Ошибка: ${error.message}</p>`;
+        });
+}
+
+function showStats(questionId) {
+    const statsContainer = document.getElementById('stats-container');
+    statsContainer.innerHTML = '<p>Загрузка статистики...</p>';
+
+    // Статистика
+    fetch(`/api/analytics/stats/${questionId}/`)
+        .then(response => response.json())
+        .then(stats => {
+            let html = `<h3>${stats.question}</h3>`;
+            html += `<p><strong>Всего голосов:</strong> ${stats.total_votes}</p>`;
+            html += '<ul>';
+            stats.options.forEach(opt => {
+                html += `<li>${opt.choice}: ${opt.votes} голосов (${opt.percentage}%)</li>`;
+            });
+            html += '</ul>';
+            statsContainer.innerHTML = html;
+
+            // График
+            fetch(`/api/analytics/chart/${questionId}/`)
+                .then(response => response.json())
+                .then(chart => {
+                    const img = document.createElement('img');
+                    img.src = `data:image/png;base64,${chart.chart}`;
+                    img.style.maxWidth = '100%';
+                    statsContainer.appendChild(img);
+                })
+                .catch(() => {
+                    statsContainer.insertAdjacentHTML('beforeend', '<p>График не загрузился</p>');
+                });
+        })
+        .catch(() => {
+            statsContainer.innerHTML = '<p>Статистика не загрузилась</p>';
+        });
+}
+</script>
